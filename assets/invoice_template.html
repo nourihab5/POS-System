@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        /* CSS Styling احترافي ونظيف */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: #333; margin: 0; padding: 20px; background-color: #fff;
+        }
+        .invoice-box { 
+            max-width: 800px; margin: auto; padding: 30px; 
+            border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); 
+        }
+        .header { 
+            display: flex; justify-content: space-between; 
+            border-bottom: 2px solid #2c3e50; padding-bottom: 20px; margin-bottom: 20px; 
+        }
+        .company-details h2 { margin: 0; color: #2c3e50; font-size: 28px; }
+        .company-details p { margin: 5px 0; color: #7f8c8d; }
+        .invoice-details { text-align: right; }
+        .invoice-details h2 { margin: 0; color: #e74c3c; font-size: 24px; }
+        
+        table { width: 100%; line-height: inherit; text-align: left; border-collapse: collapse; margin-top: 20px; }
+        table th { background: #f8f9fa; padding: 12px; border-bottom: 2px solid #ddd; color: #2c3e50; }
+        table td { padding: 12px; border-bottom: 1px solid #eee; }
+        table tr:nth-child(even) { background-color: #fcfcfc; }
+        table td.right, table th.right { text-align: right; }
+        
+        .totals { margin-top: 30px; text-align: right; padding-right: 10px; }
+        .totals p { margin: 5px 0; font-size: 15px; color: #555; }
+        .totals h3 { margin: 10px 0; color: #2c3e50; font-size: 22px; border-top: 1px solid #ddd; padding-top: 10px; display: inline-block; }
+        
+        .footer { text-align: center; margin-top: 50px; font-size: 13px; color: #95a5a6; border-top: 1px solid #eee; padding-top: 20px; }
+        #barcode { margin-top: 15px; }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    <div class="invoice-box">
+        <div class="header">
+            <div class="company-details">
+                <h2>NEXUS STORE</h2> <p>Branch: <strong>{{BRANCH_NAME}}</strong></p>
+                <p>Cashier: <strong>{{CASHIER_NAME}}</strong></p>
+            </div>
+            <div class="invoice-details">
+                <h2>INVOICE</h2>
+                <p><strong>{{INVOICE_NUMBER}}</strong></p>
+                <p>Date: {{TIMESTAMP}}</p>
+                <svg id="barcode"></svg> 
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th>Serial Number</th>
+                    <th class="right">Qty</th>
+                    <th class="right">Unit Price</th>
+                    <th class="right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ITEMS_HTML}}
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <p>Subtotal: {{SUBTOTAL}} EGP</p>
+            <p>Tax (14%): {{TOTAL_TAX}} EGP</p>
+            <p>Discount: {{TOTAL_DISCOUNT}} EGP</p>
+            <h3>Grand Total: {{GRAND_TOTAL}} EGP</h3>
+            <p style="margin-top: 15px; font-weight: bold; color: #2c3e50;">Payment Method: {{PAYMENT_METHOD}}</p>
+            <p>Paid: {{PAID_AMOUNT}} EGP | Change: {{CHANGE_AMOUNT}} EGP</p>
+        </div>
+
+        <div class="footer">
+            <p>Thank you for your business!<br>Secured by Zero-Knowledge Architecture</p>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            JsBarcode("#barcode", "{{INVOICE_NUMBER}}", {
+                format: "CODE128",
+                lineColor: "#2c3e50",
+                width: 1.5,
+                height: 40,
+                displayValue: false 
+            });
+        };
+    </script>
+</body>
+</html>
