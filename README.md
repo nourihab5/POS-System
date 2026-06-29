@@ -107,7 +107,12 @@ After successfully building the application, execute the binary file as follows:
 ```
  
 Make sure that the `glfw3.dll`, `sqlite3.dll` and `wkhtmltox.dll` files exist in the same folder as `cashier.exe`.
- 
+
+**Important Initial Admin Credentials**  
+If you are running the application for the first time, you will need the following default credentials to log in:
+* **Username:** `nour`
+* **Password:** `nournour`
+
 ---
  
 ## Usage
