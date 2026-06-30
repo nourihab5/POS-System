@@ -38,7 +38,7 @@ POS-System/
 │   └── SystemManager.h/.cpp   # Authentication and session handling
 ├── AdminDashboard.h/.cpp # Admin dashboard interface and logic
 ├── main.cpp              # Program entry point (cashier view)
-├── compile.txt            # Ready-to-use g++ build command for Windows
+├── CMakeLists.txt            # CMake build configuration: defines the target executable, C++17 standard, source files, include paths, and required libraries
 ├── glfw3.dll              # GLFW windowing, OpenGL context library
 ├── sqlite3.dll             # SQLite library
 └── wkhtmltox.dll             # Library for generating invoices in PDF format from HTML code
@@ -77,33 +77,33 @@ cd POS-System
 ```
 
 ### 2. Compile the project
- 
-In the repository there is pre-configured compiling script in `compile.txt` file:
 
-```bash
-g++ -std=c++17 -O2 ^
-main.cpp ^
-AdminDashboard.cpp ^
-utils/*.cpp ^
-imgui/*.cpp ^
-resource.o ^
--I. -Iinclude ^
--L. -Llibs ^
--l:glfw3.dll -l:sqlite3.dll -l:wkhtmltox.dll ^
--lopengl32 -lgdi32 -lws2_32 ^
--lbcrypt -ldwmapi ^
--mwindows ^
--o cashier.exe
+CMake is used to build this project. You need to have CMake and MinGW-w64 (g++) installed to proceed.
+
+To build it, first create a folder for building:
+
+```sh
+mkdir build
+cd build
+cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
 ```
 
-> Execute the command from a shell where the `^` line-continuation works, for example, Windows Command Prompt and MinGW Developer Command Prompt. For bash-like shells, change `^` with `\`.
+Then compile it into an executable:
+
+```sh
+cmake --build . --config Release
+```
+
+The binary file you just compiled, `CheckoutNew.exe`, will be in the `build/` folder.
+
+> You must have `glfw3.dll`, `sqlite3.dll`, and `wkhtmltox.dll` in the same directory as `CheckoutNew.exe` before running this application.
  
 ### 3. Run the application
  
 After successfully building the application, execute the binary file as follows:
  
 ```bash
-./cashier.exe
+./CheckoutNew.exe
 ```
  
 Make sure that the `glfw3.dll`, `sqlite3.dll` and `wkhtmltox.dll` files exist in the same folder as `cashier.exe`.
